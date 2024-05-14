@@ -40,6 +40,18 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
     }
   }, [type, todo, modalOpen]);
 
+  useEffect(() => {
+    const handleEscClose = (e) => {
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEscClose);
+    return () => {
+      window.removeEventListener('keydown', handleEscClose);
+    };
+  }, [setModalOpen]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title === '') {
@@ -84,7 +96,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
               className={styles.closeButton}
               onKeyDown={() => setModalOpen(false)}
               onClick={() => setModalOpen(false)}
-              role="button"w
+              role="button" w
               tabIndex={0}
               // animation
               initial={{ top: 40, opacity: 0 }}
