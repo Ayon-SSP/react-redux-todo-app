@@ -1,6 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { MdOutlineClose } from 'react-icons/md';
 import { AnimatePresence, motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import styles from '../styles/modules/modal.module.scss';
+import Button from './Button';
 
 const dropIn = {
   hidden: {
@@ -24,6 +27,43 @@ const dropIn = {
 };
 
 function TodoModal({ type, modalOpen, setModalOpen, todo }) {
+  const [title, setTitle] = useState('');
+  const [status, setStatus] = useState('incomplete');
+
+  useEffect(() => {
+    if (type === 'update' && todo) {
+      setTitle(todo.title);
+      setStatus(todo.status);
+    } else {
+      setTitle('');
+      setStatus('incomplete');
+    }
+  }, [type, todo, modalOpen]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (title === '') {
+      toast.error('Please enter a title');
+      return;
+    }
+    if (title && status) {
+      if (type === 'add') {
+        // add todo item
+        toast.success('Task added successfully');
+      }
+      if (type === 'update') {
+        if (todo.title !== title || todo.status !== status) {
+          // update todo item
+          toast.success('Task Updated successfully');
+        } else {
+          toast.error('No changes made');
+          return;
+        }
+      }
+      setModalOpen(false);
+    }
+  };
+
   return (
     <AnimatePresence>
       {modalOpen && (
@@ -44,7 +84,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
               className={styles.closeButton}
               onKeyDown={() => setModalOpen(false)}
               onClick={() => setModalOpen(false)}
-              role="button" w
+              role="button"w
               tabIndex={0}
               // animation
               initial={{ top: 40, opacity: 0 }}
@@ -54,10 +94,40 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
               <MdOutlineClose />
             </motion.div>
 
-            <h1 className={styles.formTitle}>
-              ADD/UPDATE TODO
-              {/* FORM */}
-            </h1>
+            <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
+              <h1 className={styles.formTitle}>
+                {type === 'add' ? 'Add' : 'Update'} TODO
+              </h1>
+              <label htmlFor="title">
+                Title
+                <input
+                  type="text"
+                  id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </label>
+              <br />
+              <label htmlFor="type">
+                Status
+                <select
+                  id="type"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option value="incomplete">Incomplete</option>
+                  <option value="complete">Completed</option>
+                </select>
+              </label>
+              <div className={styles.buttonContainer}>
+                <Button type="submit" variant="primary">
+                  {type === 'add' ? 'Add Task' : 'Update Task'}
+                </Button>
+                <Button variant="secondary" onClick={() => setModalOpen(false)}>
+                  Cancel
+                </Button>
+              </div>
+            </form>
           </motion.div>
         </motion.div>
       )}
