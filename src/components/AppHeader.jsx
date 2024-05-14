@@ -7,16 +7,10 @@ const AppHeader = () => {
   return (
     <div className={styles.appHeader}>
       <Button variant='primary'>
-        Show Toast
+        Add Task
       </Button>
-      <Button variant='secondary'>
-        Show Toast
-      </Button>
-
       <SelectButton
         id="status"
-      // onChange={(e) => updateFilter(e)}
-      // value={filterStatus}
       >
         <option value="all">All</option>
         <option value="incomplete">Incomplete</option>
@@ -26,4 +20,4 @@ const AppHeader = () => {
   )
 }
 
-export default AppHeader
+export default AppHeader  
