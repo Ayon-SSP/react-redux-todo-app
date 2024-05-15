@@ -39,9 +39,6 @@ export const todoSlice = createSlice({
             },
           ])
         );
-
-        console.log('todoList created!');
-        console.log('and stored in local storage!');
       }
     },
     updateTodo: (state, action) => {
@@ -73,7 +70,6 @@ export const todoSlice = createSlice({
     },
     updateFilterStatus: (state, action) => {
       state.filterStatus = action.payload;
-      console.log('filterStatus updated to:', action.payload);
     },
   },
 });
