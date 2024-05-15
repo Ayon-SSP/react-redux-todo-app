@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 import { MdOutlineClose } from 'react-icons/md';
 import { AnimatePresence, motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { format } from 'date-fns';
+
 import styles from '../styles/modules/modal.module.scss';
 import Button from './Button';
+import { addTodo, updateTodo } from '../slices/todoSlice';
 
 const dropIn = {
   hidden: {
@@ -27,6 +32,7 @@ const dropIn = {
 };
 
 function TodoModal({ type, modalOpen, setModalOpen, todo }) {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('incomplete');
 
@@ -60,12 +66,19 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
     }
     if (title && status) {
       if (type === 'add') {
-        // add todo item
+        dispatch(
+          addTodo({
+            id: uuid(),
+            title,
+            status,
+            time: format(new Date(), 'p, MM/dd/yyyy'),
+          })
+        );
         toast.success('Task added successfully');
       }
       if (type === 'update') {
         if (todo.title !== title || todo.status !== status) {
-          // update todo item
+          dispatch(updateTodo({ ...todo, title, status }));
           toast.success('Task Updated successfully');
         } else {
           toast.error('No changes made');
@@ -119,7 +132,6 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </label>
-              <br />
               <label htmlFor="type">
                 Status
                 <select
