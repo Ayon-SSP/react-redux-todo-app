@@ -73,6 +73,7 @@ export const todoSlice = createSlice({
     },
     updateFilterStatus: (state, action) => {
       state.filterStatus = action.payload;
+      console.log('filterStatus updated to:', action.payload);
     },
   },
 });
