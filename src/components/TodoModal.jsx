@@ -96,7 +96,7 @@ function TodoModal({ type, modalOpen, setModalOpen, todo }) {
               className={styles.closeButton}
               onKeyDown={() => setModalOpen(false)}
               onClick={() => setModalOpen(false)}
-              role="button" w
+              role="button"
               tabIndex={0}
               // animation
               initial={{ top: 40, opacity: 0 }}
