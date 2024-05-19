@@ -24,34 +24,31 @@ const CheckButton = ({ checked, handleCheck }) => {
   const opacity = useTransform(pathLength, [0.05, 0.15], [0, 1]);
 
   return (
-
-    <div>
-      <motion.div
-        animate={checked ? 'checked' : 'unchecked'}
-        className={styles.svgBox}
-        variants={boxVariants}
-        onClick={() => handleCheck()}
+    <motion.div
+      animate={checked ? 'checked' : 'unchecked'}
+      className={styles.svgBox}
+      variants={boxVariants}
+      onClick={() => handleCheck()}
+    >
+      <motion.svg
+        className={styles.svg}
+        viewBox="0 0 53 38"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <motion.svg
-          className={styles.svg}
-          viewBox="0 0 53 38"
+        <motion.path
+          variants={checkVariants}
+          animate={checked ? 'checked' : 'unchecked'}
+          style={{ pathLength, opacity }}
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <motion.path
-            variants={checkVariants}
-            animate={checked ? 'checked' : 'unchecked'}
-            style={{ pathLength, opacity }}
-            fill="none"
-            strokeMiterlimit="10"
-            strokeWidth="6"
-            d="M1.5 22L16 36.5L51.5 1"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-          />
-        </motion.svg>
-      </motion.div>
-    </div>
+          strokeMiterlimit="10"
+          strokeWidth="6"
+          d="M1.5 22L16 36.5L51.5 1"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      </motion.svg>
+    </motion.div>
   )
 }
 
